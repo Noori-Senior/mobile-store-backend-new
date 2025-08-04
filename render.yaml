@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: mobile-store-backend
+    runtime: docker
+    plan: free
+    branch: main
+    buildCommand: "composer install --no-dev --optimize-autoloader && php artisan config:clear && php artisan migrate --force"
+    startCommand: "php artisan serve --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: nozomi.proxy.rlwy.net
+      - key: DB_PORT
+        value: 58266
+      - key: DB_DATABASE
+        value: railway
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: ttKJsBoZvKViKwwODuPvfHTyOQFlqfwI
