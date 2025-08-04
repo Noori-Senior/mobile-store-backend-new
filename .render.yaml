@@ -1,32 +1,25 @@
 services:
   - type: web
     name: mobile-store-backend
-    runtime: docker          # ✅ This is correct
-    region: oregon
+    env: docker
     plan: free
-    dockerfilePath: Dockerfile
-    buildFilter:
-      paths:
-        - Dockerfile
-        - .render.yaml
-        - '**/*.php'
-        - composer.json
+    branch: main
+    buildCommand: "composer install --no-dev --optimize-autoloader && php artisan config:clear && php artisan migrate --force"
+    startCommand: "php artisan serve --host 0.0.0.0 --port $PORT"
     envVars:
       - key: APP_ENV
-        value: "production"
-      - key: APP_DEBUG
-        value: "false"
+        value: production
       - key: APP_KEY
         generateValue: true
       - key: DB_CONNECTION
-        value: "pgsql"
+        value: pgsql
       - key: DB_HOST
-        value: "gondola.proxy.rlwy.net"
+        value: your-db-host
       - key: DB_PORT
-        value: "10417"
+        value: 5432
       - key: DB_DATABASE
-        value: "railway"
+        value: your-db-name
       - key: DB_USERNAME
-        value: "postgres"
+        value: your-db-user
       - key: DB_PASSWORD
-        value: "DYmSAuYDhoNxeftakeIzHDKFBtFPyZdV"
+        value: your-db-password
