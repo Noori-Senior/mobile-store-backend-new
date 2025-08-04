@@ -1,7 +1,11 @@
 services:
   - type: web
     name: mobile-store-backend
+<<<<<<< HEAD
     env: docker
+=======
+    runtime: docker   # ✅ this is the correct key!
+>>>>>>> fc06dae (Fix: use runtime: docker instead of env)
     plan: free
     branch: main
     buildCommand: "composer install --no-dev --optimize-autoloader && php artisan config:clear && php artisan migrate --force"
@@ -14,6 +18,7 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
+<<<<<<< HEAD
         value: your-db-host
       - key: DB_PORT
         value: 5432
@@ -23,3 +28,14 @@ services:
         value: your-db-user
       - key: DB_PASSWORD
         value: your-db-password
+=======
+        value: nozomi.proxy.rlwy.net
+      - key: DB_PORT
+        value: 58266
+      - key: DB_DATABASE
+        value: railway
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: ttKJsBoZvKViKwwODuPvfHTyOQFlqfwI
+>>>>>>> fc06dae (Fix: use runtime: docker instead of env)
