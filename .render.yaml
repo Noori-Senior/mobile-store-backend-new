@@ -1,11 +1,13 @@
 services:
   - type: web
-    name: mobile-store-backend
+    name: mobile-store-backend-new
     runtime: docker
     plan: free
     branch: main
-    buildCommand: "composer install --no-dev --optimize-autoloader && php artisan config:clear && php artisan migrate --force"
-    startCommand: "php artisan serve --host 0.0.0.0 --port $PORT"
+    repo: https://github.com/Noori-Senior/mobile-store-backend-new
+    buildFilter:
+      paths:
+        - Dockerfile
     envVars:
       - key: APP_ENV
         value: production
