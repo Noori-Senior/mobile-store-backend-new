@@ -24,6 +24,8 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+RUN php artisan key:generate
+
 # Set Laravel permissions
 RUN chmod -R 755 storage bootstrap/cache
 
