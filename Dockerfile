@@ -1,31 +1,34 @@
-# Use the official PHP image with Apache
-FROM php:8.2-apache
-
-# Set working directory
-WORKDIR /var/www/html
+# Dockerfile
+FROM php:8.2-cli
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpq-dev libonig-dev libzip-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    unzip \
+    libzip-dev \
+    libpq-dev \
+    git \
+    curl
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Copy Laravel project files
-COPY . /var/www/html
+# Install PHP extensions
+RUN docker-php-ext-install zip pdo pdo_pgsql
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install dependencies
+# Set working directory
+WORKDIR /var/www
+
+# Copy Laravel project files
+COPY . .
+
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Set Laravel permissions
+RUN chmod -R 755 storage bootstrap/cache
 
 # Expose port
-EXPOSE 80
+EXPOSE 8000
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Run Laravel's development server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
