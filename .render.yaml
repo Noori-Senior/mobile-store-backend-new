@@ -1,27 +1,26 @@
 services:
   - type: web
-    name: mobile-store-backend-new
+    name: mobile-store-backend
     runtime: docker
     plan: free
     branch: main
-    repo: https://github.com/Noori-Senior/mobile-store-backend-new
-    buildFilter:
-      paths:
-        - Dockerfile
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:clear
+      php artisan key:generate
+      php artisan migrate --force
     envVars:
       - key: APP_ENV
         value: production
-      - key: APP_KEY
-        generateValue: true
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: nozomi.proxy.rlwy.net
+        value: gondola.proxy.rlwy.net
       - key: DB_PORT
-        value: 58266
+        value: "10417"
       - key: DB_DATABASE
         value: railway
       - key: DB_USERNAME
         value: postgres
       - key: DB_PASSWORD
-        value: ttKJsBoZvKViKwwODuPvfHTyOQFlqfwI
+        value: DYmSAuYDhoNxeftakeIzHDKFBtFPyZdV
