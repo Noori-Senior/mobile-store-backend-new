@@ -1,4 +1,3 @@
-# Dockerfile
 FROM php:8.2-cli
 
 # Install system dependencies
@@ -24,7 +23,8 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-RUN php artisan key:generate
+# Generate key (will be overridden in Render with env var)
+RUN php artisan key:generate --force
 
 # Set Laravel permissions
 RUN chmod -R 755 storage bootstrap/cache
